@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:splash_screen/auth/singup_screen.dart';
 import 'package:splash_screen/const.dart';
-import 'package:splash_screen/singup_screen.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -64,8 +65,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your email';
                       }
-                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                        return 'Please enter a valid email address';
+                     if (!value.contains('@')) {
+                        return 'Email must contains with @';
                       }
                       if (!value.endsWith('.com')) {
                         return 'Email must end with .com';
