@@ -159,7 +159,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             children: [
               Container(
                 width: 200,
-                height: 180,
+                height: 240,
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(19.5),
@@ -167,7 +167,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
               Positioned(
                 top: -40, // الصورة طالعة برا الكارت شوية لفوق
-                child: Image.asset(image, height: 220, fit: BoxFit.contain),
+                child: Image.asset(image, height: 280, fit: BoxFit.contain),
               ),
             ],
           ),
