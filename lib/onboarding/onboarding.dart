@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:splash_screen/auth/login_screen.dart';
 import 'package:splash_screen/const.dart';
@@ -19,7 +18,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -37,19 +36,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 },
                 children: [
                   buildOnboardPage(
-                    image: '${imagePath}worker1.svg',
+                    image: '${imagePath}worker1.png',
                     title: 'Welcome to FixIt',
                     subtitle:
                         'Discover a world of convenience and reliability. FixIt is your one stop solution for all your home service needs.',
                   ),
                   buildOnboardPage(
-                    image: '${imagePath}worker2.svg',
+                    image: '${imagePath}worker2.png',
                     title: 'Find Services',
                     subtitle:
                         'Browse and book a wide range of services from plumbing and electrical to appliance repair. We’ve got it all covered.',
                   ),
                   buildOnboardPage(
-                    image: '${imagePath}worker3.svg',
+                    image: '${imagePath}worker3.png',
                     title: 'Fast & Reliable',
                     subtitle:
                         'Our professionals ensure quick and reliable service every time. Sit back and relax, we’ve got you covered.',
@@ -92,44 +91,45 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
               ),
 
-              // Next button
+              // Next / Get Started button
               Positioned(
-                bottom: 30,
+                bottom: 40,
                 left: 0,
                 right: 0,
-                child: Center(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 60,
-                        vertical: 14,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 56,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (isLastPage) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ),
+                          );
+                        } else {
+                          _controller.nextPage(
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF0054A5),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                    onPressed: () {
-                      if (isLastPage) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginScreen(),
-                          ),
-                        );
-                      } else {
-                        _controller.nextPage(
-                          duration: const Duration(milliseconds: 400),
-                          curve: Curves.easeInOut,
-                        );
-                      }
-                    },
-                    child: Text(
-                      isLastPage ? 'Get Started' : 'Next',
-                      style: const TextStyle(
-                        color: Color(0xFF0054A5),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                      child: Text(
+                        isLastPage ? 'Get Started' : 'Next',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -148,21 +148,46 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     required String subtitle,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 60),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(image, height: 260),
-          const SizedBox(height: 40),
+          // الصورة طالعة من الكارد
+          Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.center,
+            children: [
+              Container(
+                width: 200,
+                height: 180,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(19.5),
+                ),
+              ),
+              Positioned(
+                top: -40, // الصورة طالعة برا الكارت شوية لفوق
+                child: Image.asset(image, height: 220, fit: BoxFit.contain),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 70),
+
+          // العنوان
           Text(
             title,
+            textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
+
           const SizedBox(height: 15),
+
+          // النص التوضيحي
           Text(
             subtitle,
             textAlign: TextAlign.center,
